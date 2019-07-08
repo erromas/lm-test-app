@@ -1,0 +1,37 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    component: {{ .Chart.Name }}
+spec:
+  replicas: {{ pluck .Values.global.env .Values.replicas.nginx | first | default .Values.replicas.oms_service._default }}
+  selector:
+    matchLabels:
+      component: {{ .Chart.Name }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        component: {{ .Chart.Name }}
+    spec:
+      containers:
+      - name: go
+{{ tuple "oms-service" . | include "dapp_container_image" | indent 8 }}
+        command: ["/app/cmd"]
+        workingDir: "/app"
+        ports:
+        - containerPort: {{ pluck .Values.global.env .Values.app.nginx.rest_port | first | default .Values.app.nginx.rest_port._default }}
+          name: http
+          protocol: TCP
+        - containerPort: {{ pluck .Values.global.env .Values.app.nginx.grpc_port | first | default .Values.app.nginx.grpc_port._default }}
+          name: grpc
+          protocol: TCP
+        env:
+{{ tuple "oms-service" . | include "dapp_container_env" | indent 8 }}
+{{- include "nginx_envs" . | indent 8 }}
+{{- include "nginx_resources" . | indent 8 }}
