@@ -1,0 +1,27 @@
+replicas:
+  nginx:
+    _default: 1
+
+resources:
+  nginx:
+    requests:
+      cpu:
+        _default: 0
+      memory:
+        _default: 512Mi
+    limits:
+      cpu:
+        _default: 0
+      memory:
+        _default: 512Mi
+
+tls:
+  wildcard:
+    _default: "wildcard-tls"
+
+app:
+  nginx:
+    rest_port:
+      _default: "80"
+    ci_url:
+      _default: "front-%s.hv-8-lm.flant.ru"

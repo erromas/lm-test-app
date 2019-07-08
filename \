@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Chart.Name }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+  - hosts:
+    - {{ pluck .Values.global.env .Values.app.nginx.ci_url | first | default .Values.app.nginx.ci_url._default }}
+    secretName: {{ pluck .Values.global.env .Values.tls.wildcard | first | default .Values.tls.wildcard._default }}
+  rules:
+  - host: {{ pluck .Values.global.env .Values.app.nginx.ci_url | first | default .Values.app.nginx.ci_url._default }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Chart.Name }}
+          servicePort: http
