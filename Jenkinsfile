@@ -9,7 +9,7 @@ properties([
 def werf_run(werfargs) {
     sh """#!/bin/bash -el
     set -o pipefail
-    source <(multiwerf use 1.0 alpha)
+    source <(./root/bin/multiwerf use 1.0 alpha)
     werf ${werfargs}""".trim()
 }
 
@@ -31,8 +31,8 @@ def git_branch() {
 
 def DOCKER_REGISTRY = "nexus.lm-edu.flant.ru"
 def DOCKER_REGISTRY_CREDENTIALS = "DOCKER_REGISTRY"
-def HV = "hv6"
-def kubecfg_file_name = "hv-6-kubecfg"
+def HV = "hv8"
+def kubecfg_file_name = "hv-8-kubecfg"
 
 node ('roman.ermolov') {
     timestamps {
