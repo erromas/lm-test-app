@@ -9,7 +9,7 @@ properties([
 def werf_run(werfargs) {
     sh """#!/bin/bash -el
     set -o pipefail
-    source <(./multiwerf use 1.0 alpha)
+    source <(multiwerf use 1.0 alpha)
     werf ${werfargs}""".trim()
 }
 
