@@ -1,0 +1,33 @@
+project: proba-nginx-php
+configVersion: 1
+---
+{{ $_ := set . "PHPVersion" "7.2" }}
+{{ $_ := set . "AppPath" "/app" }}
+---
+artifact: generator
+from: php:{{.PHPVersion}}
+git:
+- add: /src
+  to: {{ .AppPath }}
+  stageDependencies:
+    setup:
+    - '*'
+
+ansible:
+  install:
+  - name: "Generate html"
+    shell: |
+      set -e
+      pwd ; ls -la ; php generator.php > html
+    args:
+      executable: /bin/bash
+      chdir: {{ .AppPath }}
+
+---
+image: nginx
+from: nginx
+import:
+- artifact: generator
+  add: {{ .AppPath }}/html
+  to: /var/www/html/index.html
+  after: install
