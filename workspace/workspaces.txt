@@ -1,6 +1,0 @@
-maksim.fominov/mfominov-project/master
-.fominov_mfominov-project_master
-maksim.fominov/mfominov-project/test
-im.fominov_mfominov-project_test
-roman.ermolov/erromas-projekt/test
-man.ermolov_erromas-projekt_test
