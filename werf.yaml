@@ -29,5 +29,5 @@ from: nginx
 import:
 - artifact: generator
   add: {{ .AppPath }}/html
-  to: /var/www/html/index.html
+  to: /usr/share/nginx/html/index.html
   after: install
