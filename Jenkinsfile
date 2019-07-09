@@ -29,6 +29,13 @@ def git_branch() {
     return readFile(".git/branch").trim()
 }
 
+def get_kubesecret() {
+    sh """#!/bin/bash -el
+    set -o pipefail
+    KUBECONFIG=${kube_cfg} kubectl -n default get secrets regcred -o json |jq -r  '.data.\".dockerconfigjson\"'
+    """.trim()
+}
+
 def DOCKER_REGISTRY = "nexus.lm-edu.flant.ru"
 def DOCKER_REGISTRY_CREDENTIALS = "DOCKER_REGISTRY"
 def HV = "hv8"
